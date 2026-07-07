@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Repair CRM & Dispute Generator — RJ Business Solutions</title>
+    <!-- Tailwind CSS 3.4 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            blue: '#0F1E36',
+                            blueLight: '#1E3A8A'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+        }
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Optimized Dispute Letter Print Layout */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-family: 'Times New Roman', Times, serif !important;
+                font-size: 12pt !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 1.5in !important;
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen pb-12">
+
+    <!-- Top Header Banner (Hidden on print) -->
+    <header class="no-print bg-slate-950 border-b border-slate-800 py-4 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-4">
+            <img src="https://storage.googleapis.com/msgsndr/qQnxRHDtyx0uydPd5sRl/media/67eb83c5e519ed689430646b.jpeg" alt="RJ Business Solutions" class="h-12 w-auto rounded border border-brand-gold">
+            <div>
+                <h1 class="heading-font text-xl md:text-2xl font-bold tracking-tight text-brand-gold">Credit Command CRM & Disputes</h1>
+                <p class="text-xs text-slate-400">📍 1342 NM 333, Tijeras, NM 87059 | 🌐 rickjeffersonsolutions.com</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="px-3 py-1 bg-green-950 text-green-400 border border-green-800 text-xs rounded-full font-mono flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                MyFreeScoreNow Active
+            </span>
+        </div>
+    </header>
+
+    <!-- Main CRM Layout Container (Hidden on print) -->
+    <main class="no-print max-w-7xl mx-auto px-4 md:px-8 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left: Navigation Tabs & Register Client -->
+        <section class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- CRM Navigation -->
+            <div class="glass-panel rounded-2xl p-4 flex flex-col gap-2">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest px-2 heading-font">Navigation</h2>
+                <nav class="flex flex-col gap-1">
+                    <button id="tab-crm-btn" class="w-full text-left py-3 px-4 rounded-xl text-slate-100 bg-slate-800 hover:bg-slate-800 font-medium transition flex items-center gap-3">
+                        <i class="fa-solid fa-users text-brand-gold"></i> Client CRM Directory
+                    </button>
+                    <button id="tab-dispute-btn" class="w-full text-left py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-slate-100 font-medium transition flex items-center gap-3">
+                        <i class="fa-solid fa-file-invoice-dollar text-brand-gold"></i> Dispute Generator
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Client Intake Form -->
+            <div class="glass-panel rounded-2xl p-6">
+                <h2 class="heading-font text-lg font-bold text-slate-100 border-b border-slate-800 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus text-brand-gold"></i> New Client Intake
+                </h2>
+                <form id="intake-form" class="flex flex-col gap-4 mt-4">
+                    <div>
+                        <label class="text-xs text-slate-400 font-medium block mb-1">Full Name</label>
+                        <input type="text" id="client-name" placeholder="John Doe" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-gold" required>
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 font-medium block mb-1">Email Address</label>
+                        <input type="email" id="client-email" placeholder="johndoe@email.com" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-gold" required>
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 font-medium block mb-1">Phone Number</label>
+                        <input type="tel" id="client-phone" placeholder="(505) 555-0199" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-gold" required>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-brand-gold text-slate-950 font-bold rounded-xl hover:bg-yellow-500 transition shadow-lg shadow-yellow-500/10 mt-2">
+                        Add Client & Run Pull
+                    </button>
+                </form>
+            </div>
+            
+        </section>
+
+        <!-- Right: Active View Workspace -->
+        <section class="lg:col-span-8 flex flex-col gap-6">
+            
+            <!-- CRM Tab Details -->
+            <div id="view-crm" class="glass-panel rounded-2xl p-6 flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <h2 class="heading-font text-xl font-bold">Client CRM Directory</h2>
+                    <span class="text-xs text-slate-400" id="total-clients-count">0 Active Clients</span>
+                </div>
+                <div id="crm-directory-list" class="flex flex-col gap-4">
+                    <!-- Loaded dynamically -->
+                    <div class="text-center py-12 text-slate-500">
+                        <i class="fa-solid fa-users text-4xl mb-3 block text-slate-700"></i>
+                        No clients registered yet. Please run an intake.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dispute Tab Details (Hidden initially) -->
+            <div id="view-dispute" class="glass-panel rounded-2xl p-6 hidden flex flex-col gap-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="heading-font text-xl font-bold">Credit Dispute Generator</h2>
+                    <p class="text-xs text-slate-400">Analyze negative credit items and compile dispute letters to Experian, TransUnion, and Equifax.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs text-slate-400 font-medium block mb-1">Select Client</label>
+                        <select id="dispute-client-select" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-brand-gold">
+                            <option value="">Choose a client...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 font-medium block mb-1">Select Bureau</label>
+                        <select id="dispute-bureau-select" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-brand-gold">
+                            <option value="Experian">Experian</option>
+                            <option value="TransUnion">TransUnion</option>
+                            <option value="Equifax">Equifax</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Live Client Negative Report Items Table -->
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 heading-font">Client Credit Report Negative Items</h3>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900/50 text-slate-400 border-b border-slate-800">
+                                    <th class="p-3">Bureau</th>
+                                    <th class="p-3">Creditor / Item</th>
+                                    <th class="p-3">Account Number</th>
+                                    <th class="p-3">Issue Type</th>
+                                    <th class="p-3 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dispute-report-items">
+                                <tr class="text-slate-500">
+                                    <td colspan="5" class="p-6 text-center">Select a client above to retrieve report items from MyFreeScoreNow API.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dispute Constructor Form -->
+                <div class="border-t border-slate-800 pt-6 flex flex-col gap-4">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 heading-font">Dispute Statement Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium block mb-1">Dispute Item Name</label>
+                            <input type="text" id="dispute-item-name" placeholder="e.g. Midland Credit Management" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-brand-gold">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium block mb-1">Account Number</label>
+                            <input type="text" id="dispute-account-number" placeholder="e.g. 8572XXXX" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-brand-gold">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium block mb-1">Dispute Reason Template</label>
+                            <select id="dispute-type-select" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-brand-gold">
+                                <option value="Collection">Collection (Unverified account)</option>
+                                <option value="Late Payment">Late Payment (LEDGER errors)</option>
+                                <option value="Charge Off">Charge Off (Incorrect outstanding balance)</option>
+                                <option value="Inquiry">Hard Inquiry (Unauthorized pull)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium block mb-1">Custom Reason Details</label>
+                            <input type="text" id="dispute-reason-text" placeholder="e.g. This account is paid, but shows past due status." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:border-brand-gold">
+                        </div>
+                    </div>
+                    <button id="generate-letter-btn" class="w-full py-3 bg-brand-gold text-slate-950 font-bold rounded-xl hover:bg-yellow-500 transition shadow-lg shadow-yellow-500/10">
+                        Generate Bureau Dispute Letter
+                    </button>
+                </div>
+
+                <!-- Preview Area -->
+                <div id="dispute-preview-section" class="border-t border-slate-800 pt-6 hidden flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 heading-font">Generated Dispute Letter Preview</h3>
+                        <div class="flex gap-2">
+                            <button id="print-letter-btn" class="py-1.5 px-3.5 bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold rounded-lg text-xs flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-print text-brand-gold"></i> Print Letter
+                            </button>
+                            <button id="email-letter-btn" class="py-1.5 px-3.5 bg-brand-blueLight hover:bg-blue-700 text-slate-100 font-semibold rounded-lg text-xs flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-envelope text-brand-gold"></i> Email to Client
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-850 p-6 rounded-xl font-mono text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap" id="letter-preview-content">
+                        <!-- Content rendered dynamically -->
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Printing Sheet area (Hidden by default, visible on print only) -->
+    <div id="print-sheet" class="print-only hidden whitespace-pre-wrap font-serif text-slate-950 bg-white">
+        <!-- Content parsed dynamically on print -->
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
