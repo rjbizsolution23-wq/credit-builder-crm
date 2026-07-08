@@ -8,7 +8,7 @@
 import os
 import json
 import sqlite3
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -311,6 +311,100 @@ def email_dispute_letter(req: EmailLetterRequest):
         return {"success": False, "error": f"Failed to send email. Resend response: {res.text}"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/reports/parse")
+async def parse_credit_report(file: UploadFile = File(...)):
+    """Parses an uploaded PDF credit report using pdfplumber and extracts negative items."""
+    import io
+    import re
+    
+    try:
+        import pdfplumber
+    except ImportError:
+        raise HTTPException(
+            status_code=500,
+            detail="pdfplumber library is not installed. Please run pip install -r requirements.txt"
+        )
+        
+    try:
+        contents = await file.read()
+        pdf_file = io.BytesIO(contents)
+        
+        extracted_text = ""
+        with pdfplumber.open(pdf_file) as pdf:
+            for page in pdf.pages:
+                text = page.extract_text()
+                if text:
+                    extracted_text += text + "\n"
+                    
+        # Simple rule-based extraction patterns for negative accounts
+        creditor_keywords = [
+            "Midland Funding", "Portfolio Recovery", "LVNV Funding", "Jefferson Capital",
+            "Cavalry SPV", "Asset Acceptance", "Resurgent Capital", "Credit Management",
+            "Enhanced Recovery", "Diversified Consultants", "Convergent", "IC System"
+        ]
+        
+        negative_items = []
+        lines = extracted_text.splitlines()
+        
+        for idx, line in enumerate(lines):
+            matched_creditor = None
+            for kw in creditor_keywords:
+                if re.search(r'\b' + re.escape(kw) + r'\b', line, re.IGNORECASE):
+                    matched_creditor = kw
+                    break
+                    
+            if not matched_creditor and re.search(r'\b(collection|charge[- ]off|delinquent|past due)\b', line, re.IGNORECASE):
+                words = re.findall(r'\b[A-Za-z0-9\s]+\b', line)
+                if words:
+                    matched_creditor = words[0][:30].strip()
+                    
+            if matched_creditor:
+                acct_match = re.search(r'\b(acct|account|no|num|#)?\s*:?\s*([0-9a-zA-Z*]{4,16})\b', line, re.IGNORECASE)
+                acct_num = acct_match.group(2) if acct_match else "Unknown"
+                
+                bal_match = re.search(r'\$\s*([0-9,]+(?:\.[0-9]{2})?)', line)
+                balance = bal_match.group(1).replace(",", "") if bal_match else "0.00"
+                
+                bureau = "Experian"
+                if "transunion" in line.lower() or (idx > 0 and "transunion" in lines[idx-1].lower()):
+                    bureau = "TransUnion"
+                elif "equifax" in line.lower() or (idx > 0 and "equifax" in lines[idx-1].lower()):
+                    bureau = "Equifax"
+                    
+                dispute_type = "Collection"
+                if "late" in line.lower():
+                    dispute_type = "Late Payment"
+                elif "charge" in line.lower():
+                    dispute_type = "Charge Off"
+                elif "inquiry" in line.lower():
+                    dispute_type = "Inquiry"
+                    
+                negative_items.append({
+                    "creditor": matched_creditor,
+                    "account_number": acct_num,
+                    "balance": float(balance) if balance else 0.00,
+                    "bureau": bureau,
+                    "dispute_type": dispute_type,
+                    "raw_line": line.strip()[:150]
+                })
+                
+        seen = set()
+        deduped_items = []
+        for item in negative_items:
+            key = (item["creditor"].lower(), item["account_number"].lower())
+            if key not in seen:
+                seen.add(key)
+                deduped_items.append(item)
+                
+        return {
+            "success": True,
+            "filename": file.filename,
+            "items_count": len(deduped_items),
+            "negative_items": deduped_items
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to parse report: {str(e)}")
 
 # Serving UI
 @app.get("/")
